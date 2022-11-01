@@ -1,0 +1,15 @@
+[package]
+name = "maxine"
+version = "0.1.0"
+edition = "2021"
+
+[package.metadata.nix]
+build = true
+
+[dependencies]
+miette = { version = "5.4.1", features = ["fancy"] }
+tokio = { version = "1.21.2", features = ["full"] }
+arfur = { git = "https://github.com/arfur-rs/arfur", version = "0.0.1" }
+
+[dependencies.mekena]
+git = "https://github.com/bobbbay/mekena"
