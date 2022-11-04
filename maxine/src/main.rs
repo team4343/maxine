@@ -4,7 +4,7 @@ use miette::{IntoDiagnostic, Result};
 
 #[main]
 async fn main(system: System) -> Result<()> {
-    let robot = RobotBuilder::default().initialize()?;
+    let robot = RobotBuilder::default().initialize().into_diagnostic()?;
 
     system
         .add_node(subsystems::drivetrain::Drivetrain::new(robot))
@@ -16,8 +16,12 @@ async fn main(system: System) -> Result<()> {
 pub mod subsystems {
     pub mod drivetrain {
 
+        use std::f32::consts::FRAC_PI_2;
+
         use arfur::prelude::*;
+        use maxine::transforms;
         use mekena::prelude::*;
+        use nalgebra::{Isometry2, Vector2};
 
         pub struct Drivetrain {
             motors: Motors,
@@ -31,24 +35,6 @@ pub mod subsystems {
                     state: State::Off,
                 }
             }
-
-            /// TODO: move this to Arfur.
-            /// TODO: review speed/benchmark and optimise
-            fn deadband(x: f32) -> f32 {
-                const CUTOFF: f32 = 0.1;
-                const WEIGHT: f32 = 0.2;
-
-                fn cubic(x: f32, weight: f32) -> f32 {
-                    weight * x * x * x + (1. - weight) * x
-                }
-
-                if x.abs() < CUTOFF {
-                    0
-                } else {
-                    cubic(x, WEIGHT)
-                        - (x.abs() / x) * cubic(CUTOFF, WEIGHT) / (1. - cubic(CUTOFF, WEIGHT))
-                }
-            }
         }
 
         #[node]
@@ -57,17 +43,25 @@ pub mod subsystems {
                 use tokio::time::{self, Duration};
 
                 loop {
-                    // Get joystick values.
+                    // Get joystick values. These should all be ranges from 0 to 1.
                     let x = 0.;
                     let y = 0.;
                     let θ = 0.;
 
+                    debug_assert!(x <= 1. && x >= -1.);
+                    debug_assert!(y <= 1. && y >= -1.);
+                    debug_assert!(θ <= 1. && θ >= -1.);
+
                     // Apply transformations.
-                    let x = Self::deadband(x);
-                    let y = Self::deadband(y);
-                    let θ = Self::deadband(θ);
+                    let x = transforms::deadband(x);
+                    let y = transforms::deadband(y);
+                    let θ = transforms::deadband(θ);
+
+                    // Calculate the isometry.
+                    let isometry = Isometry2::new(Vector2::new(x, y), θ * FRAC_PI_2);
 
                     // Run the applied transforms on self.motors
+                    self.motors.set(isometry);
 
                     // Sleep, and do it all again.
                     time::sleep(Duration::from_millis(50)).await;
@@ -98,6 +92,22 @@ pub mod subsystems {
                     rf: Module::new(robot, rf_ids.0, rf_ids.1),
                     rr: Module::new(robot, rr_ids.0, rr_ids.1),
                 }
+            }
+
+            pub fn set(&mut self, isometry: Isometry2<f32>) {
+                // The given isometry is robot-relative. Transform it to
+                // module-relative before passing it on to each module.
+
+                // for module in [&self.lf, &self.lr, &self.rf, &self.rr] {}
+
+                // TODO: potentially move the mounting isometry data inside of
+                // each Module.
+                let lf = isometry * Isometry2::new(Vector2::new(0., 0.), 0. * FRAC_PI_2);
+                let lr = isometry * Isometry2::new(Vector2::new(0., 0.), 0. * FRAC_PI_2);
+                let rf = isometry * Isometry2::new(Vector2::new(0., 0.), 0. * FRAC_PI_2);
+                let rr = isometry * Isometry2::new(Vector2::new(0., 0.), 0. * FRAC_PI_2);
+
+                todo!()
             }
         }
 

@@ -1,0 +1,25 @@
+[package]
+name = "maxine"
+version = "0.1.0"
+edition = "2021"
+
+[package.metadata.nix]
+build = true
+
+[dependencies]
+nalgebra = "0.31.3"
+maxine-lib = { version = "0.1.0", path = "../maxine-lib" }
+
+[dependencies.mekena]
+git = "https://github.com/bobbbay/mekena"
+
+[dependencies.arfur]
+git = "https://github.com/arfur-rs/arfur"
+
+[dependencies.miette]
+version = "5.4.1"
+features = ["fancy"]
+
+[dependencies.tokio]
+version = "1.21.2"
+features = ["full"]
