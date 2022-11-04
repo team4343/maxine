@@ -40,7 +40,7 @@ dependencies = [
 [[package]]
 name = "arfur"
 version = "0.0.1"
-source = "git+https://github.com/arfur-rs/arfur#92f858d6f9ea7d6e83fe3ded07c8d595998f4052"
+source = "git+https://github.com/arfur-rs/arfur#cbd33bc7c86a56e3dd9d4cee6fa758c58bff94f1"
 dependencies = [
  "arfur-rev",
  "arfur-wpilib",
@@ -49,7 +49,7 @@ dependencies = [
 [[package]]
 name = "arfur-build"
 version = "0.0.1"
-source = "git+https://github.com/arfur-rs/arfur#92f858d6f9ea7d6e83fe3ded07c8d595998f4052"
+source = "git+https://github.com/arfur-rs/arfur#cbd33bc7c86a56e3dd9d4cee6fa758c58bff94f1"
 dependencies = [
  "color-eyre",
  "once_cell",
@@ -62,9 +62,10 @@ dependencies = [
 [[package]]
 name = "arfur-rev"
 version = "0.0.1"
-source = "git+https://github.com/arfur-rs/arfur#92f858d6f9ea7d6e83fe3ded07c8d595998f4052"
+source = "git+https://github.com/arfur-rs/arfur#cbd33bc7c86a56e3dd9d4cee6fa758c58bff94f1"
 dependencies = [
  "arfur-build",
+ "arfur-wpilib",
  "color-eyre",
  "derive_builder",
  "thiserror",
@@ -75,7 +76,7 @@ dependencies = [
 [[package]]
 name = "arfur-wpilib"
 version = "0.0.1"
-source = "git+https://github.com/arfur-rs/arfur#92f858d6f9ea7d6e83fe3ded07c8d595998f4052"
+source = "git+https://github.com/arfur-rs/arfur#cbd33bc7c86a56e3dd9d4cee6fa758c58bff94f1"
 dependencies = [
  "arfur-build",
  "color-eyre",
@@ -798,7 +799,7 @@ dependencies = [
 [[package]]
 name = "mekena"
 version = "0.1.0"
-source = "git+https://github.com/bobbbay/mekena#e2287a5e88eeaf57a5628d81e955ba7a49916d34"
+source = "git+https://github.com/bobbbay/mekena#45668813f0c5685c52219c5c32b72427e5cb2261"
 dependencies = [
  "async-trait",
  "crossbeam",
@@ -817,7 +818,7 @@ dependencies = [
 [[package]]
 name = "mekena-macros"
 version = "0.1.0"
-source = "git+https://github.com/bobbbay/mekena#e2287a5e88eeaf57a5628d81e955ba7a49916d34"
+source = "git+https://github.com/bobbbay/mekena#45668813f0c5685c52219c5c32b72427e5cb2261"
 dependencies = [
  "darling",
  "proc-macro2",
@@ -828,7 +829,7 @@ dependencies = [
 [[package]]
 name = "mekena-messaging"
 version = "0.1.0"
-source = "git+https://github.com/bobbbay/mekena#e2287a5e88eeaf57a5628d81e955ba7a49916d34"
+source = "git+https://github.com/bobbbay/mekena#45668813f0c5685c52219c5c32b72427e5cb2261"
 dependencies = [
  "flume",
  "miette",
@@ -838,7 +839,7 @@ dependencies = [
 [[package]]
 name = "mekena-state"
 version = "0.1.0"
-source = "git+https://github.com/bobbbay/mekena#e2287a5e88eeaf57a5628d81e955ba7a49916d34"
+source = "git+https://github.com/bobbbay/mekena#45668813f0c5685c52219c5c32b72427e5cb2261"
 dependencies = [
  "dashmap",
 ]
@@ -846,7 +847,7 @@ dependencies = [
 [[package]]
 name = "mekena-util"
 version = "0.1.0"
-source = "git+https://github.com/bobbbay/mekena#e2287a5e88eeaf57a5628d81e955ba7a49916d34"
+source = "git+https://github.com/bobbbay/mekena#45668813f0c5685c52219c5c32b72427e5cb2261"
 dependencies = [
  "flume",
 ]
@@ -953,9 +954,9 @@ dependencies = [
 
 [[package]]
 name = "num_cpus"
-version = "1.13.1"
+version = "1.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "19e64526ebdee182341572e50e9ad03965aa510cd94427a4549448f285e957a1"
+checksum = "f6058e64324c71e02bc2b150e4f3bc8286db6c83092132ffa3f6b1eab0f9def5"
 dependencies = [
  "hermit-abi",
  "libc",
