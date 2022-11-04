@@ -1,3 +1,5 @@
+#![allow(mixed_script_confusables)]
+
 use arfur::prelude::*;
 use mekena::prelude::*;
 use miette::{IntoDiagnostic, Result};
@@ -41,10 +43,9 @@ pub mod subsystems {
             async fn running(&mut self, ctx: &Context) {
                 use tokio::time::{self, Duration};
 
+                // Get the state from DS
                 // TODO: move this into Arfur.
                 let state = unsafe {
-                    // Get the state from DS
-
                     // Not sure if this is the proper initialization.
                     let control_word = HAL_ControlWord::new_bitfield_1(0, 0, 0, 0, 0, 0, 0);
                     let mut control_word = HAL_ControlWord {
@@ -103,10 +104,9 @@ pub mod subsystems {
     }
 
     pub mod drivetrain {
+        use std::f64::consts::FRAC_PI_2;
 
-        use std::f32::consts::FRAC_PI_2;
-
-        use arfur::prelude::*;
+        use arfur::{prelude::*, wpilib::ffi::root::frc::XboxController};
         use maxine_lib::transforms;
         use mekena::prelude::*;
         use nalgebra::{Isometry2, Vector2};
@@ -114,6 +114,7 @@ pub mod subsystems {
         pub struct Drivetrain {
             motors: Motors,
             state: State,
+            controller: XboxController,
         }
 
         impl Drivetrain {
@@ -121,6 +122,7 @@ pub mod subsystems {
                 Self {
                     motors: Motors::new(robot, (10, 11), (12, 13), (14, 15), (16, 17)),
                     state: State::Off,
+                    controller: unsafe { XboxController::new(0) },
                 }
             }
         }
@@ -135,9 +137,10 @@ pub mod subsystems {
                         State::Off => (),
                         State::Teleop => {
                             // Get joystick values. These should all be ranges from 0 to 1.
-                            let x = 0.;
-                            let y = 0.;
-                            let θ = 0.;
+                            // TODO: wrap this in a safer type in Arfur.
+                            let x = unsafe { self.controller.GetLeftX() };
+                            let y = unsafe { self.controller.GetLeftY() };
+                            let θ = unsafe { self.controller.GetRightX() };
 
                             debug_assert!(x <= 1. && x >= -1.);
                             debug_assert!(y <= 1. && y >= -1.);
@@ -188,7 +191,7 @@ pub mod subsystems {
                 }
             }
 
-            pub fn set(&mut self, isometry: Isometry2<f32>) {
+            pub fn set(&mut self, isometry: Isometry2<f64>) {
                 // The given isometry is robot-relative. Transform it to
                 // module-relative before passing it on to each module.
 
@@ -203,8 +206,6 @@ pub mod subsystems {
                 self.lr.set(lr);
                 self.rf.set(rf);
                 self.rr.set(rr);
-
-                todo!()
             }
         }
 
@@ -224,11 +225,12 @@ pub mod subsystems {
             /// Set the drivetrain to drive in a module-relative isometry.
             ///
             /// Setting the same value again should result in no change.
-            pub fn set(&mut self, isometry: Isometry2<f32>) {
+            pub fn set(&mut self, isometry: Isometry2<f64>) {
                 // Calculate the speed and rotation based on the isometry.
-                //
-                // We basically have to combine the x and y axes into a
-                // rotational value, and add the isometry's rotation to that.
+                let (drive, rotation) = transforms::swerve(isometry);
+
+                self.drive.set_percentage(drive);
+                self.rotation.set_percentage(rotation);
 
                 todo!()
             }

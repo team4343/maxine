@@ -64,7 +64,7 @@ dependencies = [
 [[package]]
 name = "arfur"
 version = "0.0.1"
-source = "git+https://github.com/arfur-rs/arfur#cbd33bc7c86a56e3dd9d4cee6fa758c58bff94f1"
+source = "git+https://github.com/arfur-rs/arfur#b83b5f272d745972865ba9872bd6f4a9a31a6c51"
 dependencies = [
  "arfur-rev",
  "arfur-wpilib",
@@ -73,7 +73,7 @@ dependencies = [
 [[package]]
 name = "arfur-build"
 version = "0.0.1"
-source = "git+https://github.com/arfur-rs/arfur#cbd33bc7c86a56e3dd9d4cee6fa758c58bff94f1"
+source = "git+https://github.com/arfur-rs/arfur#b83b5f272d745972865ba9872bd6f4a9a31a6c51"
 dependencies = [
  "color-eyre",
  "once_cell",
@@ -86,7 +86,7 @@ dependencies = [
 [[package]]
 name = "arfur-rev"
 version = "0.0.1"
-source = "git+https://github.com/arfur-rs/arfur#cbd33bc7c86a56e3dd9d4cee6fa758c58bff94f1"
+source = "git+https://github.com/arfur-rs/arfur#b83b5f272d745972865ba9872bd6f4a9a31a6c51"
 dependencies = [
  "arfur-build",
  "arfur-wpilib",
@@ -100,7 +100,7 @@ dependencies = [
 [[package]]
 name = "arfur-wpilib"
 version = "0.0.1"
-source = "git+https://github.com/arfur-rs/arfur#cbd33bc7c86a56e3dd9d4cee6fa758c58bff94f1"
+source = "git+https://github.com/arfur-rs/arfur#b83b5f272d745972865ba9872bd6f4a9a31a6c51"
 dependencies = [
  "arfur-build",
  "color-eyre",
