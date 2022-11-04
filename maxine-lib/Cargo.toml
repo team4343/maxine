@@ -12,3 +12,7 @@ criterion = "0.4"
 [[bench]]
 name = "transforms"
 harness = false
+
+[dependencies]
+nalgebra = "0.31.3"
+plotters = { version = "0.3.4", optional = true }
