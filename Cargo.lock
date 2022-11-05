@@ -63,8 +63,8 @@ dependencies = [
 
 [[package]]
 name = "arfur"
-version = "0.0.1"
-source = "git+https://github.com/arfur-rs/arfur#b83b5f272d745972865ba9872bd6f4a9a31a6c51"
+version = "0.0.2"
+source = "git+https://github.com/arfur-rs/arfur#1173390c01c4d2ba1bbf155fa08fa726c9146ae4"
 dependencies = [
  "arfur-rev",
  "arfur-wpilib",
@@ -72,8 +72,8 @@ dependencies = [
 
 [[package]]
 name = "arfur-build"
-version = "0.0.1"
-source = "git+https://github.com/arfur-rs/arfur#b83b5f272d745972865ba9872bd6f4a9a31a6c51"
+version = "0.0.2"
+source = "git+https://github.com/arfur-rs/arfur#1173390c01c4d2ba1bbf155fa08fa726c9146ae4"
 dependencies = [
  "color-eyre",
  "once_cell",
@@ -86,7 +86,7 @@ dependencies = [
 [[package]]
 name = "arfur-rev"
 version = "0.0.1"
-source = "git+https://github.com/arfur-rs/arfur#b83b5f272d745972865ba9872bd6f4a9a31a6c51"
+source = "git+https://github.com/arfur-rs/arfur#1173390c01c4d2ba1bbf155fa08fa726c9146ae4"
 dependencies = [
  "arfur-build",
  "arfur-wpilib",
@@ -99,8 +99,8 @@ dependencies = [
 
 [[package]]
 name = "arfur-wpilib"
-version = "0.0.1"
-source = "git+https://github.com/arfur-rs/arfur#b83b5f272d745972865ba9872bd6f4a9a31a6c51"
+version = "0.0.2"
+source = "git+https://github.com/arfur-rs/arfur#1173390c01c4d2ba1bbf155fa08fa726c9146ae4"
 dependencies = [
  "arfur-build",
  "color-eyre",
@@ -1241,6 +1241,7 @@ dependencies = [
  "miette",
  "nalgebra",
  "tokio",
+ "tracing",
 ]
 
 [[package]]
@@ -1255,7 +1256,7 @@ dependencies = [
 [[package]]
 name = "mekena"
 version = "0.1.0"
-source = "git+https://github.com/bobbbay/mekena#f76572a7855d714a273ff115d622069dce4cdc83"
+source = "git+https://github.com/bobbbay/mekena#58d441f58da8517a7ae1d72f568c56fa7bffcf64"
 dependencies = [
  "async-trait",
  "crossbeam",
@@ -1274,7 +1275,7 @@ dependencies = [
 [[package]]
 name = "mekena-macros"
 version = "0.1.0"
-source = "git+https://github.com/bobbbay/mekena#f76572a7855d714a273ff115d622069dce4cdc83"
+source = "git+https://github.com/bobbbay/mekena#58d441f58da8517a7ae1d72f568c56fa7bffcf64"
 dependencies = [
  "darling",
  "proc-macro2",
@@ -1285,7 +1286,7 @@ dependencies = [
 [[package]]
 name = "mekena-messaging"
 version = "0.1.0"
-source = "git+https://github.com/bobbbay/mekena#f76572a7855d714a273ff115d622069dce4cdc83"
+source = "git+https://github.com/bobbbay/mekena#58d441f58da8517a7ae1d72f568c56fa7bffcf64"
 dependencies = [
  "flume",
  "miette",
@@ -1295,7 +1296,7 @@ dependencies = [
 [[package]]
 name = "mekena-state"
 version = "0.1.0"
-source = "git+https://github.com/bobbbay/mekena#f76572a7855d714a273ff115d622069dce4cdc83"
+source = "git+https://github.com/bobbbay/mekena#58d441f58da8517a7ae1d72f568c56fa7bffcf64"
 dependencies = [
  "dashmap",
 ]
@@ -1303,7 +1304,7 @@ dependencies = [
 [[package]]
 name = "mekena-util"
 version = "0.1.0"
-source = "git+https://github.com/bobbbay/mekena#f76572a7855d714a273ff115d622069dce4cdc83"
+source = "git+https://github.com/bobbbay/mekena#58d441f58da8517a7ae1d72f568c56fa7bffcf64"
 dependencies = [
  "flume",
 ]
