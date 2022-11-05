@@ -4,7 +4,9 @@ use arfur::{prelude::*, wpilib::ffi::root::frc::XboxController};
 use maxine_lib::transforms;
 use mekena::prelude::*;
 use nalgebra::{Isometry2, Vector2};
+use tracing::{instrument, trace};
 
+#[derive(Debug)]
 pub struct Drivetrain {
     motors: Motors,
     state: State,
@@ -21,6 +23,7 @@ impl Drivetrain {
     }
 
     // TODO: find a better name for this method.
+    #[instrument]
     async fn runnable(&mut self) {
         use tokio::time::{self, Duration};
 
@@ -60,6 +63,7 @@ impl Drivetrain {
 
 #[node]
 impl Node for Drivetrain {
+    #[instrument]
     async fn running(&mut self, ctx: &Context) {
         use tokio::select;
 
@@ -74,6 +78,7 @@ impl Node for Drivetrain {
 
 /// Motor handles to all eight motors. Can possibly be one handle to a
 /// Swerve type in Arfur.
+#[derive(Debug)]
 pub struct Motors {
     lf: Module,
     lr: Module,
@@ -97,6 +102,7 @@ impl Motors {
         }
     }
 
+    #[instrument]
     pub fn set(&mut self, isometry: Isometry2<f64>) {
         // The given isometry is robot-relative. Transform it to
         // module-relative before passing it on to each module.
@@ -108,6 +114,14 @@ impl Motors {
         let rf = isometry * Isometry2::new(Vector2::new(0., 0.), 0. * FRAC_PI_2);
         let rr = isometry * Isometry2::new(Vector2::new(0., 0.), 0. * FRAC_PI_2);
 
+        trace!(
+            "Setting isometry to:
+            lf: {lf},
+            lr: {lr},
+            rf: {rf},
+            rr: {rr}."
+        );
+
         self.lf.set(lf);
         self.lr.set(lr);
         self.rf.set(rf);
@@ -115,6 +129,7 @@ impl Motors {
     }
 }
 
+#[derive(Debug)]
 pub struct Module {
     drive: SparkMax,
     rotation: SparkMax,
@@ -131,6 +146,7 @@ impl Module {
     /// Set the drivetrain to drive in a module-relative isometry.
     ///
     /// Setting the same value again should result in no change.
+    #[instrument]
     pub fn set(&mut self, isometry: Isometry2<f64>) {
         // Calculate the speed and rotation based on the isometry.
         let (drive, rotation) = transforms::swerve(isometry);
@@ -141,6 +157,7 @@ impl Module {
 }
 
 /// Possible states.
+#[derive(Debug)]
 pub enum State {
     /// Completely turned off.
     Off,
@@ -151,6 +168,7 @@ pub enum State {
 }
 
 /// A message demanding a change in state.
+#[derive(Debug)]
 pub struct ChangeState(State);
 
 impl ChangeState {
@@ -161,7 +179,9 @@ impl ChangeState {
 
 /// A message asking to run a state after the current one has completed.
 /// Note that the teleop state never completes.
+#[derive(Debug)]
 pub struct AddState(State);
 
 /// A set of desired points. Should be built into Arfur.
+#[derive(Debug)]
 pub struct Path {}

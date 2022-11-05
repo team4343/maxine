@@ -5,6 +5,7 @@ use arfur::wpilib::ffi::root::{
 use mekena::prelude::*;
 use miette::IntoDiagnostic;
 
+#[derive(Debug)]
 pub struct Observer {
     previous_state: State,
 }
@@ -19,6 +20,7 @@ impl Observer {
 
 #[node]
 impl Node for Observer {
+    #[tracing::instrument]
     async fn running(&mut self, ctx: &Context) {
         use tokio::time::{self, Duration};
 
@@ -74,7 +76,7 @@ impl Node for Observer {
     }
 }
 
-#[derive(Eq, PartialEq)]
+#[derive(Debug, Eq, PartialEq)]
 pub enum State {
     Disabled,
     Autonomous,

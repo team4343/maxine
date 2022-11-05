@@ -8,6 +8,10 @@ use miette::{IntoDiagnostic, Result};
 
 #[main]
 async fn main(system: System) -> Result<()> {
+    tracing_subscriber::FmtSubscriber::builder()
+        .pretty()
+        .finish();
+
     let robot = RobotBuilder::default().initialize().into_diagnostic()?;
 
     system
