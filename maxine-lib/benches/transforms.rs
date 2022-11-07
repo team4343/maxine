@@ -1,4 +1,4 @@
-use std::f32::consts::FRAC_PI_6;
+use std::f64::consts::FRAC_PI_6;
 
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use maxine_lib::transforms::*;
