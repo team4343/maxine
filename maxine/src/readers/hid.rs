@@ -32,7 +32,7 @@ impl Schedulable for HIDReader {
     type E = HIDReaderError;
 
     #[instrument(skip(self), fields(scheduler = std::any::type_name::<Self>()))]
-    async fn run(&self) -> Result<(), Self::E> {
+    async fn run(self) -> Result<Self, Self::E> {
         trace!("Starting to run the HID Reader...");
 
         let state_handle = self.state_handle.clone();
@@ -43,16 +43,16 @@ impl Schedulable for HIDReader {
 
         self.state_handle.a.0.send_async(true).await.unwrap();
 
+        spawn_handle.await.unwrap();
+
         loop {
             // TODO: fill this in.
             // (1) read HID values from DS
             // (2) get the current HID state
             // (3) if there's a change, update appropriately
 
-            tokio::task::yield_now().await;
+            // tokio::task::yield_now().await;
         }
-
-        spawn_handle.await.unwrap();
     }
 }
 

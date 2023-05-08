@@ -43,7 +43,7 @@ impl Schedulable for DriverStationReader {
     type E = DriverStationReaderError;
 
     #[instrument(skip(self), fields(scheduler = std::any::type_name::<Self>()))]
-    async fn run(&self) -> Result<(), Self::E> {
+    async fn run(self) -> Result<Self, Self::E> {
         trace!("Starting to run the DS Reader...");
 
         loop {
@@ -51,7 +51,7 @@ impl Schedulable for DriverStationReader {
             // (2) get the current DS state
             // (3) if there's a change, update appropriately
 
-            tokio::task::yield_now().await;
+            // tokio::task::yield_now().await;
         }
     }
 }
