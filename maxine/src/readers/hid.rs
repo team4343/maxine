@@ -50,8 +50,6 @@ impl Schedulable for HIDReader {
             // (1) read HID values from DS
             // (2) get the current HID state
             // (3) if there's a change, update appropriately
-
-            // tokio::task::yield_now().await;
         }
     }
 }
