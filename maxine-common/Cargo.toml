@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 async-trait = "0.1.68"
+tracing = "0.1.37"

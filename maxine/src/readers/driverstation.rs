@@ -1,14 +1,18 @@
+use std::sync::Arc;
+
 use async_trait::async_trait;
 use flume::{Receiver, Sender};
 use maxine_common::{readers::Reader, scheduler::Schedulable};
 use miette::Diagnostic;
 use thiserror::Error;
+use tracing::{instrument, trace};
 
 /// Reads from the DS and updates the state accordingly. Includes current game
 /// state, and possibly other values.
-pub struct DriverStationReader<'a> {
+#[derive(Debug)]
+pub struct DriverStationReader {
     ds_handle: (),
-    state_handle: &'a DriverStationState,
+    state_handle: Arc<DriverStationState>,
 }
 
 /// TODO: *delete this* and use the one including in the wpilib abstraction.
@@ -25,8 +29,8 @@ pub enum GameState {
 #[derive(Diagnostic, Error, Debug)]
 pub enum DriverStationReaderError {}
 
-impl<'a> DriverStationReader<'a> {
-    pub fn new(state_handle: &'a DriverStationState) -> Self {
+impl DriverStationReader {
+    pub fn new(state_handle: Arc<DriverStationState>) -> Self {
         Self {
             ds_handle: (),
             state_handle,
@@ -35,25 +39,29 @@ impl<'a> DriverStationReader<'a> {
 }
 
 #[async_trait]
-impl<'a> Schedulable for DriverStationReader<'a> {
+impl Schedulable for DriverStationReader {
     type E = DriverStationReaderError;
 
-    async fn run(&mut self) -> Result<(), Self::E> {
+    #[instrument(skip(self), fields(scheduler = std::any::type_name::<Self>()))]
+    async fn run(&self) -> Result<(), Self::E> {
+        trace!("Starting to run the DS Reader...");
+
         loop {
             // (1) read DS state from DS
             // (2) get the current DS state
             // (3) if there's a change, update appropriately
 
-            todo!()
+            tokio::task::yield_now().await;
         }
     }
 }
 
 #[async_trait]
-impl<'a> Reader for DriverStationReader<'a> {
+impl Reader for DriverStationReader {
     type State = DriverStationState;
 }
 
+#[derive(Debug)]
 pub struct DriverStationState {
     game_state: (Sender<GameState>, Receiver<GameState>),
 }

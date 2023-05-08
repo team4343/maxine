@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use async_trait::async_trait;
 use maxine_common::scheduler::Schedulable;
 use miette::Diagnostic;
@@ -15,14 +17,23 @@ use crate::readers::ReaderState;
 /// and passes it the desired RoutineDescriptor. This will return the proper
 /// routine.
 /// TODO: store a handle for subsystem states/robot state.
-pub struct RobotController<'a> {
-    reader_state_handle: &'a ReaderState,
+#[derive(Debug)]
+pub struct RobotController {
+    reader_state_handle: Arc<ReaderState>,
 }
 
 #[derive(Diagnostic, Error, Debug)]
 pub enum RobotControllerError {}
 
+impl RobotController {
+    pub fn new(reader_state_handle: Arc<ReaderState>) -> Self {
+        Self {
+            reader_state_handle,
+        }
+    }
+}
+
 #[async_trait]
-impl<'a> Schedulable for RobotController<'a> {
+impl Schedulable for RobotController {
     type E = RobotControllerError;
 }

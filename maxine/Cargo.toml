@@ -6,10 +6,15 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+async-scoped = { version = "0.7.1", features = ["use-tokio"] }
 async-trait = "0.1.68"
+crossbeam = "0.8.2"
 flume = "0.10.14"
+futures = "0.3.28"
 maxine-common = { version = "0.1.0", path = "../maxine-common" }
 miette = { version = "5.8.0", features = ["fancy"] }
 thiserror = "1.0.40"
+tokio = { version = "1.28.0", features = ["full"] }
+tokio-scoped = "0.2.0"
 tracing = "0.1.38"
 tracing-subscriber = "0.3.17"
