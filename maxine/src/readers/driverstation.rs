@@ -5,6 +5,7 @@ use flume::{Receiver, Sender};
 use maxine_common::{readers::Reader, scheduler::Schedulable};
 use miette::Diagnostic;
 use thiserror::Error;
+use tokio::task::yield_now;
 use tracing::{instrument, trace};
 
 /// Reads from the DS and updates the state accordingly. Includes current game
@@ -50,6 +51,8 @@ impl Schedulable for DriverStationReader {
             // (1) read DS state from DS
             // (2) get the current DS state
             // (3) if there's a change, update appropriately
+
+            yield_now().await;
         }
     }
 }

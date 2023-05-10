@@ -5,6 +5,7 @@ use flume::{Receiver, Sender};
 use maxine_common::{readers::Reader, scheduler::Schedulable};
 use miette::Diagnostic;
 use thiserror::Error;
+use tokio::task::yield_now;
 use tracing::{instrument, trace};
 
 /// Reads the HID inputs from the DS and translates it into a shared state.
@@ -45,11 +46,15 @@ impl Schedulable for HIDReader {
 
         spawn_handle.await.unwrap();
 
+        let mut x = 0;
+
         loop {
             // TODO: fill this in.
             // (1) read HID values from DS
             // (2) get the current HID state
             // (3) if there's a change, update appropriately
+
+            yield_now().await;
         }
     }
 }
